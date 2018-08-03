@@ -1,0 +1,34 @@
+<!DOCTYPE html> 
+<html> 
+        <head> 
+                <meta charset="utf-8"/> 
+                <title>Login</title> 
+                <link rel="stylesheet" href=""/> 
+		<style>
+		html{background-color:#C5E3FB;}
+		form{margin:25vh 25vh ;
+		     background-color:white;
+			padding: 5vh 10vh;}
+		label{float:left;
+			width:35%;
+			padding-right:2%;
+			text-align:right;}
+		input{display:block;}
+		#submit,a{margin-left:37%;
+			//padding-right:20%;
+			text-align:center;}		
+		</style>
+        </head> 
+        <body> 
+                <form action="login.php" name="login" method="post" accept-charset="utf-8">
+                        <label for="username"> Nom d'utilisateur: </label>
+	     		 <input type="text" name="username" id="username" placeholder="nom d'utilisateur" required="required"/>
+		       	<br /> 
+                        <label for="password" >  Mot de passe:</label> 
+			       	<input type="password" name="password" id="password" placeholder="mot de passe" required="required"/> <br /> 
+                        <input type="submit" name="submit" id="submit" value="soumettre" /> 
+                        <br /> 
+                        <a href="">s'inscrire</a> 
+                </form> 
+        </body> 
+</html>
