@@ -20,7 +20,7 @@
 		</style>
         </head> 
         <body> 
-                <form action="login.php" name="login" method="post" accept-charset="utf-8">
+                <form action="login.php" name="login" method="post" accept-charset="utf-8">  
                         <label for="username"> Nom d'utilisateur: </label>
 	     		 <input type="text" name="username" id="username" placeholder="nom d'utilisateur" required="required"/>
 		       	<br /> 
@@ -28,7 +28,8 @@
 			       	<input type="password" name="password" id="password" placeholder="mot de passe" required="required"/> <br /> 
                         <input type="submit" name="submit" id="submit" value="soumettre" /> 
                         <br /> 
-                        <a href="">s'inscrire</a> 
+                        <a href="">s'inscrire</a>
+			<input type="hidden" name="sour"value="source"/>	
                 </form> 
         </body> 
 </html>

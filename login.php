@@ -1,4 +1,5 @@
-        <!DOCTYPE html>
+<?php if(isset($_POST['source'])) die(highlight_file(__FILE__,1)); ?>	
+<!DOCTYPE html>
         <html>
         <head>
                 <meta charset="utf-8"/>
@@ -11,23 +12,43 @@
         <body>
         
 <?php 
-	require "opendb.php";
-	
+	//include  "opendb.php";
+$db_utilisateur= "coulomje";
+$db_password="sCkjeXxBt55pRD";
+$db_host="www-ens";
+$db_nom="coulomje_Tp3";
+$connect = mysqli_connect($db_host,$db_utilisateur,$db_password,$db_nom);
+if(!$connect){
+	die("probleme lors de la connexion ".mysqli_connect_error());
+}
 	$username=$_POST["username"];
-	echo "<h1>$username </h1>";
-        $password=$_POST["password"];
-        $resultat = mysqli_fetch_assoc(mysqli_query($connect,"SELECT prenom,nom FROM Joueur WHERE username=".$username));
-        $nom = $resultat["nom"];
+	//echo "<h1>$username </h1>";
+	$password=$_POST["password"];
+	//echo "$password";
+	//echo " test";
+	$resultat = mysqli_query($connect,"SELECT prenom,nom FROM Joueur WHERE login='".$username."'");
+	if(mysqli_error($resultat)){echo '<h1>erreur de query</h1>';}
+	$resultat = mysqli_fetch_assoc($resultat);
+	//echo "$resultat";       
+	$nom = $resultat["nom"];
+	//echo "$nom <br/>";
         $prenom = $resultat["prenom"];
         mysqli_free_result($resultat);
-        function login(){
-                global $username,$password,$connect;
-                $resultat = mysqli_query($connect,"SELECT password FROM Joueur WHERE username=$username AND  password=$password");
-                if(msqli_num_rows($resultat)>0){
-                        mysqli_free_result($resultat);
+	function login(){
+		global $username,$password,$connect;
+		//echo "commence login <br />";
+
+		$resultat = mysqli_query($connect,"SELECT password FROM Joueur WHERE login='$username' AND  password='$password'");
+		//echo "<h1> a passé la query </h1> <br />";
+      		//echo "<h1>msqli_num_rows($resultat)</h1> <br />"; 
+		if(mysqli_num_rows($resultat)>0){
+			//	echo '<h1> login retourne true</h1> <br />';
+			mysqli_free_result($resultat);
+		
                         return true;    
                 }
-                else{
+		else{
+			//echo '<h1> login retourne false</h1> <br />';
                         mysqli_free_result($resultat);
                         return false;
                 }
@@ -35,7 +56,7 @@
         }
         function estGerant(){
                 global $username,$password,$connect;
-                $resultat = mysqli_query($connect,"SELECT gerant FROM Joueur WHERE username=$username AND  password=$password");
+                $resultat = mysqli_query($connect,"SELECT gerant FROM Joueur WHERE login='$username' AND  password='$password'");
                 $arrayResult = mysqli_fetch_assoc($resultat);
                 if($arrayResult["gerant"]>0){
                          mysqli_free_result($resultat);
@@ -52,21 +73,21 @@
             echo "       
             <form action=\"\" name=\"choixFormJoueur\" id=\"choixFormJoueur\" method=\"post\" accept-charset=\"utf-8\">
                 <label>Disponibilité des terrains par date et par heure dans une journée
-                    <input type=\"radio\" name=\"dispoTerrain\" id=\"dispoTerrain\" value=\"1\"/>
+                    <input type=\"radio\" name=\"choix\" id=\"dispoTerrain\" value=\"dispoTerrain\"/>
                 </label>
                 <label>
                     Liste des réservations pour une journée donnée
-                    <input type=\"radio\" name=\"listeReserv\" id=\"listeReserv\" value=\"1\" />
+                    <input type=\"radio\" name=\"choix\" id=\"listeReserv\" value=\"listeReserv\" />
                 </label> 
                 <label>
                     Annuler une réservation
-                    <input type=\"radio\" name=\"annuleReserv\" id=\"annuleReserv\" value=\"1\" />
+                    <input type=\"radio\" name=\"choix\" id=\"annuleReserv\" value=\"annuleReserv\" />
                 </label> 
                 <label>
                     Faire une réservation
-                    <input type=\"radio\" name=\"faitReserv\" id=\"faitReserv\" value=\"1\" />
+                    <input type=\"radio\" name=\"choix\" id=\"faitReserv\" value=\"faitReserv\" />
                 </label> 
-                <input type=\"submit\" value=\"choisir l\'option\"/>
+                <input type=\"button\" name=\"choisiTypePage\" id=\"submit\" value=\"choisir l'option\"/>
                 <input type=\"hidden\" value=\"$nom\" id='nom' name='nom'/>
                 <input type=\"hidden\" value=\"$prenom\" id='prenom' name='prenom'/>
             </form>
@@ -92,7 +113,7 @@
             }
         }
 
-        else{
+        else if(!login()){
             echo '<h1>nom d\'utilisateur ou mot de passe incorect</h1> <br/>';
             echo '<a href="login.html">se connecter</a>';
         }

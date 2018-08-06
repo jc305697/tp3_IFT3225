@@ -1,5 +1,6 @@
 $(document).ready(function () {
-    $("#choixFormJoueur").submit(afficheForm);
+    //$("#choixFormJoueur").submit(afficheForm);
+$("#submit").click(afficheForm);
 });
 
 function afficheForm(event) {
