@@ -1,0 +1,12 @@
+html{background-color:#C5E3FB;}
+form{margin:25vh 25vh ;
+    background-color:white;
+    padding: 5vh 10vh;}
+label{float:left;
+    width:35%;
+    padding-right:2%;
+    text-align:right;}
+input{display:block;}
+#submit1,a{margin-left:37%;
+//padding-right:20%;
+    text-align:center;}

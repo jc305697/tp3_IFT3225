@@ -11,25 +11,16 @@
         </head>
         <body>
         
-<?php 
-	//include  "opendb.php";
-$db_utilisateur= "coulomje";
-$db_password="sCkjeXxBt55pRD";
-$db_host="www-ens";
-$db_nom="coulomje_Tp3";
-$connect = mysqli_connect($db_host,$db_utilisateur,$db_password,$db_nom);
-if(!$connect){
-	die("probleme lors de la connexion ".mysqli_connect_error());
-}
+<?php
+
+	include  "opendb.php";
+
 	$username=$_POST["username"];
-	//echo "<h1>$username </h1>";
 	$password=$_POST["password"];
-	//echo "$password";
-	//echo " test";
+
 	$resultat = mysqli_query($connect,"SELECT prenom,nom FROM Joueur WHERE login='".$username."'");
 	if(mysqli_error($resultat)){echo '<h1>erreur de query</h1>';}
 	$resultat = mysqli_fetch_assoc($resultat);
-	//echo "$resultat";       
 	$nom = $resultat["nom"];
 	//echo "$nom <br/>";
         $prenom = $resultat["prenom"];
@@ -117,6 +108,8 @@ if(!$connect){
             echo '<h1>nom d\'utilisateur ou mot de passe incorect</h1> <br/>';
             echo '<a href="login.html">se connecter</a>';
         }
+
+        require "closedb.php";
 ?>
         </body>
 </html>

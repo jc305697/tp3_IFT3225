@@ -1,5 +1,7 @@
 $(document).ready(function () {
     //$("#choixFormJoueur").submit(afficheForm);
+    $("#inscriptionForm").submit(verificationChamps);
+    $("#usernameInscr").blur(verifUsername);
 $("#submit").click(afficheForm);
 });
 
@@ -49,4 +51,30 @@ function afficheForm(event) {
         return;
     }
     $span.empty().append($form);
+}
+
+function verifUsername() {
+    var usernameStr = $("#usernameInscr").val();
+    $.post("verifUsername.php",{username:usernameStr}).done(function (data) {
+        if (data=="true"){
+
+        }
+        else if (data=="false"){
+            alert("Le username est déja pris. Veuillez en choisir un autre");
+        }
+        else {
+            alert("erreur système problème avec AJAX");
+        }
+    });
+}
+
+function verificationChamps() {
+
+    if($("#passwordConf").val()==$("#password").val()){
+        return true;
+    }
+
+    else{
+        alert("Les mots de passe ne concordent pas");
+    }
 }
