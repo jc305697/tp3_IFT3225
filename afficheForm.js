@@ -1,11 +1,30 @@
 $(document).ready(function () {
-    //$("#choixFormJoueur").submit(afficheForm);
+    //$("#choixFormJoueur").submit(afficheFormClient);
     $("#inscriptionForm").submit(verificationChamps);
     $("#usernameInscr").blur(verifUsername);
-$("#submit").click(afficheForm);
+$("#submit").click(afficheFormClient);
+$("#formGerant").submit(afficheFormGerant);
 });
 
-function afficheForm(event) {
+function afficheFormGerant(event) {
+    var $span = $("#spanGerant");
+    var $form;
+
+    if($("#ListeTerrainDispo").prop("checked")){
+        $form =  $("<form action=\"listeTerrainDispo.php\" name=\"\" id=\"\" method=\"post\" accept-charset=\"utf-8\">   " +
+            "<label> Heure <input type=\"time\" name=\"heureDispo\" id=\"heureDispo\" step='3600' min=\"06:00:00\" max=\"21:00:00\" value='06:00:00'/> </label>   " +
+            "</form>");
+        event.preventDefault(event);
+        return false;
+    }
+    else {
+        return true;
+    }
+
+
+}
+
+function afficheFormClient(event) {
 
     var $span = $("#spanForm");
     var $form;
@@ -14,8 +33,7 @@ function afficheForm(event) {
     if ($("#dispoTerrain").prop("checked")) {
          $form =  $("<form action=\"\" name=\"\" id=\"\" method=\"post\" accept-charset=\"utf-8\">   " +
             "<label>Date <input type=\"date\" name=\"dateDispo\" id=\"dateDispo\" />  </label>   " +
-            "<label> Heure <input type=\"number\" name=\"heureDispo\" id=\"heureDispo\" value=\"1\" min=\"6\" max=\"21\" /> </label>   " +
-            "<label>   <input type=\"submit\" name=\"submitDispoTerrain\" /> </label> " +
+             "<label> Heure <input type=\"time\" name=\"heureDispo\" id=\"heureDispo\" step='3600' min=\"06:00:00\" max=\"21:00:00\" value='06:00:00'/> </label>   " +
             "</form>");
 
     }
@@ -23,6 +41,8 @@ function afficheForm(event) {
          $form =  $("<form action=\"\" name=\"\" id=\"\" method=\"post\" accept-charset=\"utf-8\">   " +
             "<label>Date <input type=\"date\" name=\"dateDispo\" id=\"dateDispo\" />  </label>   " +
             "<label>   <input type=\"submit\" name=\"submitDispoTerrain\" /> </label> " +
+             "<input type='hidden' value=''"+ nom+" id='nom' name='nom'/>"+
+             "<input type='hidden' value=''"+ prenom+" id='prenom' name='prenom'/>"+
             "</form>");
 
     }
@@ -30,7 +50,7 @@ function afficheForm(event) {
 
         $form = $("<form action=\"\" name=\"\" id=\"\" method=\"post\" accept-charset=\"utf-8\">   " +
             "<label>Date <input type=\"date\" name=\"dateDispo\" id=\"dateDispo\" />  </label>   " +
-            "<label> Heure <input type=\"number\" name=\"heureDispo\" id=\"heureDispo\" value=\"1\" min=\"6\" max=\"21\" /> </label>   " +
+            "<label> Heure <input type=\"time\" name=\"heureDispo\" id=\"heureDispo\" step='3600' min=\"06:00:00\" max=\"21:00:00\" value='06:00:00'/> </label>   " +
             "<label>   <input type=\"submit\" name=\"submitDispoTerrain\" /> </label> " +
             "<input type='hidden' value=''"+ nom+" id='nom' name='nom'/>"+
             "<input type='hidden' value=''"+ prenom+" id='prenom' name='prenom'/>"+
@@ -41,8 +61,7 @@ function afficheForm(event) {
         $form = $("<form action=\"\" name=\"\" id=\"\" method=\"post\" accept-charset=\"utf-8\">   " +
             "<label>Date <input type=\"date\" name=\"dateDispo\" id=\"dateDispo\" />  </label>   " +
             "<label>Numero de terrain <input type='number' name='numTerrain' min='1' max='5'/></label>" +
-            "<label> Heure <input type=\"number\" name=\"heureDispo\" id=\"heureDispo\" value=\"1\" min=\"6\" max=\"21\" /> </label> " +
-            "<label>   <input type=\"submit\" name=\"submitDispoTerrain\" /> </label> " +
+            "<label> Heure <input type=\"time\" name=\"heureDispo\" id=\"heureDispo\" step='3600' min=\"06:00:00\" max=\"21:00:00\" value='06:00:00'/> </label>   " +
             "<input type='hidden' value=''"+ nom+" id='nom' name='nom'/>"+
             "<input type='hidden' value=''"+ prenom+" id='prenom' name='prenom'/>"+
             "</form>");
@@ -67,6 +86,8 @@ function verifUsername() {
         }
     });
 }
+
+
 
 function verificationChamps() {
 
