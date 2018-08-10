@@ -1,10 +1,31 @@
 $(document).ready(function () {
-    //$("#choixFormJoueur").submit(afficheFormClient);
-    $("#inscriptionForm").submit(verificationChamps);
     $("#usernameInscr").blur(verifUsername);
-$("#submit").click(afficheFormClient);
+//$("#submit").click(afficheFormClient);
 $("#formGerant").submit(afficheFormGerant);
+$("#dateAnnul").change(convertiDate);
+$("#inscriptionForm").submit(verificationChamps);
+//$("#faitReserv").submit(verifieDateVeille)
+//$("#dateReserv").change(verifieDateVeille);
+    $("#dateReserv").val(creeDate(new Date()));
+    $("#dateReserv").attr("readonly","readonly");
 });
+function convertiDate(event) {
+    var date = new Date($("#dateAnnul").val());
+    $("#dateAnnul").val(creeDate(date));
+}
+function creeDate(date) {
+    return date.getFullYear()+"-"+date.getMonth()+"-"+date.getDate();
+}
+
+function verifieDateVeille(event) {
+    var date = new Date();//date d'aujourd'hui
+    date.setDate(date.getDate()+1);
+    var dateInput = new Date($("#dateReserv").val());
+    if (date<dateInput || date>dateInput){
+        alert("date invalide la date doit être celle de demain");
+        event.preventDefault(event);
+    }
+}
 
 function afficheFormGerant(event) {
     var $span = $("#spanGerant");
@@ -24,53 +45,6 @@ function afficheFormGerant(event) {
 
 }
 
-function afficheFormClient(event) {
-
-    var $span = $("#spanForm");
-    var $form;
-    var nom = $("#nom").val();
-    var prenom = $("#prenom").val();
-    if ($("#dispoTerrain").prop("checked")) {
-         $form =  $("<form action=\"\" name=\"\" id=\"\" method=\"post\" accept-charset=\"utf-8\">   " +
-            "<label>Date <input type=\"date\" name=\"dateDispo\" id=\"dateDispo\" />  </label>   " +
-             "<label> Heure <input type=\"time\" name=\"heureDispo\" id=\"heureDispo\" step='3600' min=\"06:00:00\" max=\"21:00:00\" value='06:00:00'/> </label>   " +
-            "</form>");
-
-    }
-    else if ($("#listeReserv").prop("checked")){
-         $form =  $("<form action=\"\" name=\"\" id=\"\" method=\"post\" accept-charset=\"utf-8\">   " +
-            "<label>Date <input type=\"date\" name=\"dateDispo\" id=\"dateDispo\" />  </label>   " +
-            "<label>   <input type=\"submit\" name=\"submitDispoTerrain\" /> </label> " +
-             "<input type='hidden' value=''"+ nom+" id='nom' name='nom'/>"+
-             "<input type='hidden' value=''"+ prenom+" id='prenom' name='prenom'/>"+
-            "</form>");
-
-    }
-    else if ($("#annuleReserv").prop("checked")){
-
-        $form = $("<form action=\"\" name=\"\" id=\"\" method=\"post\" accept-charset=\"utf-8\">   " +
-            "<label>Date <input type=\"date\" name=\"dateDispo\" id=\"dateDispo\" />  </label>   " +
-            "<label> Heure <input type=\"time\" name=\"heureDispo\" id=\"heureDispo\" step='3600' min=\"06:00:00\" max=\"21:00:00\" value='06:00:00'/> </label>   " +
-            "<label>   <input type=\"submit\" name=\"submitDispoTerrain\" /> </label> " +
-            "<input type='hidden' value=''"+ nom+" id='nom' name='nom'/>"+
-            "<input type='hidden' value=''"+ prenom+" id='prenom' name='prenom'/>"+
-            "</form>");
-        //pas besoin de numero de terrain puisque
-    }
-    else if($("#faitReserv").prop("checked")){
-        $form = $("<form action=\"\" name=\"\" id=\"\" method=\"post\" accept-charset=\"utf-8\">   " +
-            "<label>Date <input type=\"date\" name=\"dateDispo\" id=\"dateDispo\" />  </label>   " +
-            "<label>Numero de terrain <input type='number' name='numTerrain' min='1' max='5'/></label>" +
-            "<label> Heure <input type=\"time\" name=\"heureDispo\" id=\"heureDispo\" step='3600' min=\"06:00:00\" max=\"21:00:00\" value='06:00:00'/> </label>   " +
-            "<input type='hidden' value=''"+ nom+" id='nom' name='nom'/>"+
-            "<input type='hidden' value=''"+ prenom+" id='prenom' name='prenom'/>"+
-            "</form>");
-    }
-    else {
-        return;
-    }
-    $span.empty().append($form);
-}
 
 function verifUsername() {
     var usernameStr = $("#usernameInscr").val();
@@ -89,7 +63,7 @@ function verifUsername() {
 
 
 
-function verificationChamps() {
+function verificationChamps(event) {
 
     if($("#passwordConf").val()==$("#password").val()){
         return true;
@@ -97,5 +71,6 @@ function verificationChamps() {
 
     else{
         alert("Les mots de passe ne concordent pas");
+        event.preventDefault(event);
     }
 }

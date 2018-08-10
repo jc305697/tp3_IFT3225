@@ -14,7 +14,7 @@
 <?php
 
 	include  "opendb.php";
-    //if(!isset($_POST["submitDispo"])){
+    //if(!isset($_POST["submitReserv"])){
         $username=$_POST["username"];
         $password=$_POST["password"];
 
@@ -63,8 +63,32 @@
                 }
         }
 
-        if( isset($_POST["submitDispo"]) || login()){//remplacer condition si vient du script decrit dans ligne suivante
+        if(isset($_POST["submitFaitReserv"]) || isset($_POST["submitReserv"]) || isset($_POST["submitAnnul"]) || login()){//remplacer condition si vient du script decrit dans ligne suivante
             //va appeller un script qui va selon le radio selectionner afficher le formulaire correspondant
+
+            if(isset($_POST["submitAnnul"])){
+                $query = 'delete from Reservation where date='.$_POST["dateAnnul"].' and terrain=\''.$_POST["numTerrAnnul"].'\' and heure=\''
+                    .$_POST["heureAnnul"].'\' and nom=\''.$_POST["nom"].'\' and prenom=\''.$_POST["prenom"].'\'';
+                if (mysqli_query($connect,$query)){
+                    echo '<h2>Réservation annuler</h2>';
+                }else{
+                    echo 'erreur de query '.mysqli_error($connect);
+                    require "closedb.php";
+                    die();
+                }
+            }
+            if(isset($_POST["submitFaitReserv"])){
+                $query = 'insert into Reservation VALUES (\''.$prenom.'\',\''.$nom.'\',\''.$_POST["numTerrReserv"].'\',\''.$_POST["dateReserv"].'\',\''.$_POST["heureReserv"].'\')' ;
+                if (mysqli_query($connect,$query)){
+                    echo '<h2>Réservation faite</h2>';
+                }else{
+                    echo 'erreur de query '.mysqli_error($connect);
+                    require "closedb.php";
+                    die();
+                }
+            }
+
+            //va afficher la disponibilite des terrains par heure
             echo "       
                 <table> 
                 <tr>";
@@ -106,20 +130,19 @@
             echo '</table> <br />';
 
             echo"<form action=\"#\" name=\"\" id=\"\" method=\"post\" accept-charset=\"utf-8\">   ".
-            "<label>Date <input type=\"date\" required name=\"dateDispo\" id=\"dateDispo\" ";
+            "<label>Date <input type=\"date\" required name=\"dateReserv\" id=\"dateReserv\" ";
 
-            if(isset($_POST["submitDispo"])){
-                echo 'value='.$_POST["dateDispo"];
+            if(isset($_POST["submitReserv"])){
+                echo 'value='.$_POST["dateReserv"];//afin d'afficher la date donner par l'utilisateur
             }
            echo "/>  </label>   ".
-            "<label>  <input type=\"submit\" name=\"submitDispo\" /> </label> ".
+            "<label>  <input type=\"submit\" name=\"submitReserv\" /> </label> ".
              "<input type=\'hidden\' value=\"$username\" id='username' name='username'/>".
              "<input type=\'hidden\' value=\"$password\" id='password' name='password'/>".
-               "<input type=\'hidden\' value=\"$password\" id='password' name='password'/>".
             "</form>";
-            
 
-            if(isset($_POST["submitDispo"])){
+
+            if(isset($_POST["submitReserv"])){//donc on a cliquer sur le submit pour voir les reservations
                 $query = "select terrain,date_reservation,heure_reservation from Reservation where nom='$nom' and prenom='$prenom'";
                 $res = mysqli_query($connect,$query);
                 if (mysqli_num_rows($res)==0){
@@ -132,9 +155,28 @@
                             .'</td><td>'.$resArray["heure_reservation"].'</td></tr>';
                         mysqli_free_result($res);
                     }
+                    echo '</table>';
                 }
             }
 
+            //pour l'annulation d'une resevation
+            echo '<br /> <form action=\"#\" name=\"\" id=\"\" method=\"post\" accept-charset=\"utf-8\"> 
+            <label>Numéro de Terrain <input type=\"number\" name=\"numTerrAnnul\" id=\"numTerrAnnul\" required min="1" max="5" value="1"/>  </label>   
+            <label>Date <input type=\"date\" name=\"dateAnnul\" id=\"dateAnnul\" required/>  </label>    
+            <label> Heure:<input type=\"number\" name=\"heureAnnul\" id=\"heureAnnul\" step=\'any\' min=\"06\" max=\"21\" value=\'06\' required/> </label> 
+            <label>   <input type=\"submit\" name=\"submitAnnul\" value="Annuler la réservation"/> </label> 
+            <input type=\'hidden\' value=\'\''.$username.'id=\'usernameAnnul\' name=\'username\'/>
+            <input type=\'hidden\' value=\'\''.$password.'id=\'passwordAnnul\' name=\'password\'/>
+            </form> <br/>';
+
+            echo '<br /> <form action=\"#\" name=\"\" id=\"faitReserv\" method=\"post\" accept-charset=\"utf-8\"> 
+            <label>Numéro de Terrain <input type=\"number\" name=\"numTerrReserv\" id=\"numTerrReserv\" required min="1" max="5" value="1"/>  </label>   
+            <label>Date <input type=\"date\" name=\"dateReserv\" id=\"dateReserv\" required/>  </label>    
+            <label> Heure:<input type=\"number\" name=\"heureReserv\" id=\"heureReserv\" step=\'any\' min=\"06\" max=\"21\" value=\'06\' required/> </label> 
+            <label>   <input type=\"submit\" name=\"submitFaitReserv\" value="Faire la réservation"/> </label> 
+            <input type=\'hidden\' value=\'\''.$username.'id=\'usernameReserv\' name=\'username\'/>
+            <input type=\'hidden\' value=\'\''.$password.'id=\'passwordReserv\' name=\'password\'/>
+            </form> <br/>';
 
 
             if (estGerant()){
@@ -159,9 +201,11 @@
             }
         }
 
-        else if(!login()){
-            echo '<h1>nom d\'utilisateur ou mot de passe incorect</h1> <br/>';
-            echo '<a href="login.html">se connecter</a>';
+        else //if(!$estLogger){
+        {
+           // echo '<h1>nom d\'utilisateur ou mot de passe incorect</h1> <br/>';
+            //echo '<a href="ecranLogin.php">se connecter</a>';
+            header("Location: ecranLogin.php?erreurLogin=1");
         }
 
         require "closedb.php";

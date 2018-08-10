@@ -8,6 +8,11 @@
     <script type="text/javascript" src="afficheForm.js"></script>
 </head>
 <body>
+<?php
+    if (isset($_GET["erreur"])){
+        echo '<h2 class="erreur">Le login est déja utilisé </h2>';
+    }
+?>
 <form action="inscription.php" name="inscription" id="inscriptionForm" method="post" accept-charset="utf-8">
     <label for="usernameInscr"> Nom d'utilisateur: </label>
     <input type="text" name="username" id="usernameInscr" placeholder="nom d'utilisateur" required="required"/>

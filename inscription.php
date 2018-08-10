@@ -10,8 +10,9 @@ if (mysqli_num_rows($res)==0){
     mysqli_free_result($res);
 }
 else{
-    header('Location: inscription.html');//redirige vers les inscriptions
+    header('Location: ecranInscription.php?erreur=1');//redirige vers les inscriptions
     mysqli_free_result($res);
+    require "closedb.php";
     die();
 }
 mysqli_set_charset($connect,"utf8");
@@ -24,7 +25,7 @@ $nouv_nom = mysqli_real_escape_string($connect,$nom);
 if( !mysqli_query($connect,"INSERT INTO Joueur VALUES ('$nouv_prenom','$nouv_nom','$nouv_username','$nouv_password',0)")){
     die("erreur insertion ".mysqli_error());
 }
-    header('Location: login.html');
+    header('Location: ecranLogin.php');
 
     require "closedb.php";
 ?>
