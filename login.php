@@ -91,7 +91,7 @@
             //va afficher la disponibilite des terrains par heure
             echo "       
                 <table> 
-                <tr>";
+                <tr><th></th>";
             for ($i=6;$i<=21;$i++){
                 echo '<th>'.$i.'h</th>';
             }
@@ -127,23 +127,23 @@
                 echo '</tr>';
 
             }
-            echo '</table> <br />';
+            echo '</table> <br /> <h2>Voir mes réservations pour une journée donné </h2>';
 
             echo"<form action=\"#\" name=\"\" id=\"\" method=\"post\" accept-charset=\"utf-8\">   ".
-            "<label>Date <input type=\"date\" required name=\"dateReserv\" id=\"dateReserv\" ";
+            "<label>Date <input type=\"date\" required name=\"dateReserv\" id=\"dateReservVoir\" ";
 
             if(isset($_POST["submitReserv"])){
                 echo 'value='.$_POST["dateReserv"];//afin d'afficher la date donner par l'utilisateur
             }
            echo "/>  </label>   ".
-            "<label>  <input type=\"submit\" name=\"submitReserv\" /> </label> ".
-             "<input type=\'hidden\' value=\"$username\" id='username' name='username'/>".
-             "<input type=\'hidden\' value=\"$password\" id='password' name='password'/>".
+            "<label>  <input type=\"submit\" name=\"submitReserv\" value='Voir les réservations' /> </label> ".
+             "<input type='hidden' value=\"$username\" id='username' name='username'/>".
+             "<input type='hidden' value=\"$password\" id='password' name='password'/>".
             "</form>";
 
 
             if(isset($_POST["submitReserv"])){//donc on a cliquer sur le submit pour voir les reservations
-                $query = "select terrain,date_reservation,heure_reservation from Reservation where nom='$nom' and prenom='$prenom'";
+                $query = "select terrain,date_reservation,heure_reservation from Reservation where nom='$nom' and prenom='$prenom' and date_reservation='".$_POST["dateReserv"]."' ";
                 $res = mysqli_query($connect,$query);
                 if (mysqli_num_rows($res)==0){
                     echo '<p>aucune réservations pour cette journée</p>';
@@ -160,20 +160,24 @@
             }
 
             //pour l'annulation d'une resevation
-            echo '<br /> <form action=\"#\" name=\"\" id=\"\" method=\"post\" accept-charset=\"utf-8\"> 
-            <label>Numéro de Terrain <input type=\"number\" name=\"numTerrAnnul\" id=\"numTerrAnnul\" required min="1" max="5" value="1"/>  </label>   
-            <label>Date <input type=\"date\" name=\"dateAnnul\" id=\"dateAnnul\" required/>  </label>    
-            <label> Heure:<input type=\"number\" name=\"heureAnnul\" id=\"heureAnnul\" step=\'any\' min=\"06\" max=\"21\" value=\'06\' required/> </label> 
-            <label>   <input type=\"submit\" name=\"submitAnnul\" value="Annuler la réservation"/> </label> 
+
+            echo '<h2>Annulez une réservation</h2>
+            <br /> <form action="#" name="" id="" method="post" accept-charset="utf-8"> 
+            <label>Numéro de Terrain <input type="number" name="numTerrAnnul" id="numTerrAnnul" required min="1" max="5" value="1"/>  </label>   
+            <label>Date <input type="date" name="dateAnnul" id="dateAnnul" required/>  </label>    
+            <label> Heure:<input type="number" name="heureAnnul" id="heureAnnul" step=\'any\' min="06" max="21" value=\'06\' required/> </label> 
+            <br />
+            <label>   <input type="submit" name="submitAnnul" value="Annuler la réservation"/> </label> 
             <input type=\'hidden\' value=\'\''.$username.'id=\'usernameAnnul\' name=\'username\'/>
             <input type=\'hidden\' value=\'\''.$password.'id=\'passwordAnnul\' name=\'password\'/>
             </form> <br/>';
 
-            echo '<br /> <form action=\"#\" name=\"\" id=\"faitReserv\" method=\"post\" accept-charset=\"utf-8\"> 
-            <label>Numéro de Terrain <input type=\"number\" name=\"numTerrReserv\" id=\"numTerrReserv\" required min="1" max="5" value="1"/>  </label>   
-            <label>Date <input type=\"date\" name=\"dateReserv\" id=\"dateReserv\" required/>  </label>    
-            <label> Heure:<input type=\"number\" name=\"heureReserv\" id=\"heureReserv\" step=\'any\' min=\"06\" max=\"21\" value=\'06\' required/> </label> 
-            <label>   <input type=\"submit\" name=\"submitFaitReserv\" value="Faire la réservation"/> </label> 
+            echo '<h2>Faire une réservation</h2>
+            <br /> <form action="#" name="" id="faitReserv" method="post" accept-charset="utf-8"> 
+            <label>Numéro de Terrain <input type="number" name="numTerrReserv" id="numTerrReserv" required min="1" max="5" value="1"/>  </label>   
+            <label>Date <input type="date" name="dateReserv" id="dateReserv"  required/>  </label>    
+            <label> Heure:<input type="number" name="heureReserv" id="heureReserv" step=\'any\' min=\"06\" max=\"21\" value=\'06\' required/> </label> 
+            <br /><label>   <input type="submit" name="submitFaitReserv" value="Faire la réservation"/> </label> 
             <input type=\'hidden\' value=\'\''.$username.'id=\'usernameReserv\' name=\'username\'/>
             <input type=\'hidden\' value=\'\''.$password.'id=\'passwordReserv\' name=\'password\'/>
             </form> <br/>';

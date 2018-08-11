@@ -2,19 +2,38 @@ $(document).ready(function () {
     $("#usernameInscr").blur(verifUsername);
 //$("#submit").click(afficheFormClient);
 $("#formGerant").submit(afficheFormGerant);
-$("#dateAnnul").change(convertiDate);
-$("#inscriptionForm").submit(verificationChamps);
-//$("#faitReserv").submit(verifieDateVeille)
-//$("#dateReserv").change(verifieDateVeille);
-    $("#dateReserv").val(creeDate(new Date()));
-    $("#dateReserv").attr("readonly","readonly");
+$("#dateAnnul").change(convertiDateAnnul);
+$("#dateReserv").change(convertiDateReserv).on("load",function (event) {
+    var date = new Date();//date d'aujourd'hui
+    date.setDate(date.getDate()+1);
+    //$(this).val(creeDate(date));
+    document.getElementById('dateReserv').valueAsDate = date;//https://stackoverflow.com/questions/12346381/set-date-in-input-type-date
+    $(this).attr("readonly","readonly");
+
 });
-function convertiDate(event) {
+$("#inscriptionForm").submit(verificationChamps);
+$("#faitReserv").submit(verifieDateVeille);
+//$("#dateReserv").change(verifieDateVeille);
+});
+function convertiDateAnnul(event) {
     var date = new Date($("#dateAnnul").val());
     $("#dateAnnul").val(creeDate(date));
+    var date = new Date($("#dateReserv").val());
+    $("#dateReserv").val(creeDate(date));
+
+
+}
+function convertiDateReserv(event) {
+    var date = new Date($("#dateReserv").val());
+    $("#dateReserv").val(creeDate(date));
+
+
 }
 function creeDate(date) {
-    return date.getFullYear()+"-"+date.getMonth()+"-"+date.getDate();
+    //https://stackoverflow.com/questions/12346381/set-date-in-input-type-date
+    var jour = ("0" + date.getDate()).slice(-2);
+    var mois = ("0" + (date.getMonth() + 1)).slice(-2);
+    return date.getFullYear()+"-"+mois+"-"+jour;
 }
 
 function verifieDateVeille(event) {
