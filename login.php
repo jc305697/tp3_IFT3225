@@ -105,8 +105,8 @@ if( $listeTerrainDispo || $liste || $listeReserv || isset($_POST["submitFaitRese
             $query = 'insert into Reservation VALUES (\''.$prenom.'\',\''.$nom.'\',\''.$_POST["numTerrReserv"].'\',\''.$_POST["dateReserv"].'\',\''.$_POST["heureReserv"].'\')' ;
             $dateInput = new DateTime(strtotime($_POST["dateReserv"]));
             $dateAujourdhui = new DateTime();
-            echo ''.$dateInput;
-            echo ''.$dateAujourdhui;
+            //echo ''.$dateInput;
+            //echo ''.$dateAujourdhui;
             $dateInput ->setTime(0,0,0,0);
             $dateAujourdhui->setTime(0,0,0,0);
             $diff = date_diff($dateAujourdhui,$dateInput)->format('%R%a');
@@ -123,7 +123,7 @@ if( $listeTerrainDispo || $liste || $listeReserv || isset($_POST["submitFaitRese
             }
             else{
                 echo '<h2 class="erreur">La date fourni n\'est pas celle de demain</h2>';
-                echo ''.$diff;
+                //echo ''.$diff;
             }
         }
 
