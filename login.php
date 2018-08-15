@@ -90,7 +90,7 @@ if( $listeTerrainDispo || $liste || $listeReserv || isset($_POST["submitFaitRese
             //va appeller un script qui va selon le radio selectionner afficher le formulaire correspondant
 
         if(isset($_POST["submitAnnul"])){
-            $query = 'delete from Reservation where date='.$_POST["dateAnnul"].' and terrain=\''.$_POST["numTerrAnnul"].'\' and heure=\''
+            $query = 'delete from Reservation where date='.date('Y-m-d',$_POST["dateAnnul"]).' and terrain=\''.$_POST["numTerrAnnul"].'\' and heure=\''
                 .$_POST["heureAnnul"].'\' and nom=\''.$_POST["nom"].'\' and prenom=\''.$_POST["prenom"].'\'';
             if (mysqli_query($connect,$query)){
                 echo '<h2>Réservation annuler</h2>';
@@ -100,14 +100,30 @@ if( $listeTerrainDispo || $liste || $listeReserv || isset($_POST["submitFaitRese
                 die();
             }
         }
+
         if(isset($_POST["submitFaitReserv"])){
             $query = 'insert into Reservation VALUES (\''.$prenom.'\',\''.$nom.'\',\''.$_POST["numTerrReserv"].'\',\''.$_POST["dateReserv"].'\',\''.$_POST["heureReserv"].'\')' ;
-            if (mysqli_query($connect,$query)){
-                echo '<h2>Réservation faite</h2>';
-            }else{
-                echo 'erreur de query '.mysqli_error($connect);
-                require "closedb.php";
-                die();
+            $dateInput = new DateTime(strtotime($_POST["dateReserv"]));
+            $dateAujourdhui = new DateTime();
+            echo ''.$dateInput;
+            echo ''.$dateAujourdhui;
+            $dateInput ->setTime(0,0,0,0);
+            $dateAujourdhui->setTime(0,0,0,0);
+            $diff = date_diff($dateAujourdhui,$dateInput)->format('%R%a');
+            if (strcmp($diff,"+1") ==0){
+                //https://stackoverflow.com/questions/30243775/get-date-from-input-form-within-php
+                //https://stackoverflow.com/questions/25622370/php-how-to-check-if-a-date-is-today-yesterday-or-tomorrow
+                if (mysqli_query($connect,$query)){
+                    echo '<h2>Réservation faite</h2>';
+                }else{
+                    echo 'erreur de query '.mysqli_error($connect);
+                    require "closedb.php";
+                    die();
+                }
+            }
+            else{
+                echo '<h2 class="erreur">La date fourni n\'est pas celle de demain</h2>';
+                echo ''.$diff;
             }
         }
 
