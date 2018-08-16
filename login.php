@@ -90,7 +90,7 @@ if( $listeTerrainDispo || $liste || $listeReserv || isset($_POST["submitFaitRese
             //va appeller un script qui va selon le radio selectionner afficher le formulaire correspondant
 
         if(isset($_POST["submitAnnul"])){
-            $query = 'delete from Reservation where date='.date('Y-m-d',$_POST["dateAnnul"]).' and terrain=\''.$_POST["numTerrAnnul"].'\' and heure=\''
+            $query = 'delete from Reservation where date_reservation='.date('Y-m-d',$_POST["dateAnnul"]).' and terrain=\''.$_POST["numTerrAnnul"].'\' and heure=\''
                 .$_POST["heureAnnul"].'\' and nom=\''.$_POST["nom"].'\' and prenom=\''.$_POST["prenom"].'\'';
             if (mysqli_query($connect,$query)){
                 echo '<h2>Réservation annuler</h2>';
@@ -113,13 +113,21 @@ if( $listeTerrainDispo || $liste || $listeReserv || isset($_POST["submitFaitRese
             if (strcmp($diff,"+1") ==0){
                 //https://stackoverflow.com/questions/30243775/get-date-from-input-form-within-php
                 //https://stackoverflow.com/questions/25622370/php-how-to-check-if-a-date-is-today-yesterday-or-tomorrow
-                if (mysqli_query($connect,$query)){
-                    echo '<h2>Réservation faite</h2>';
-                }else{
-                    echo 'erreur de query '.mysqli_error($connect);
-                    require "closedb.php";
-                    die();
-                }
+                $queryTest = 'select * from Reservation where prenom='.$prenom.' and nom='.$nom.' and date_reservation='.$_POST["dateReserv"];
+                 if (mysqli_num_rows(mysqli_query($connect,$queryTest)) == 0) {
+
+
+                     if (mysqli_query($connect, $query)) {
+                         echo '<h2>Réservation faite</h2>';
+                     } else {
+                         echo 'erreur de query ' . mysqli_error($connect);
+                         require "closedb.php";
+                         die();
+                     }
+                 }
+                 else{
+                     echo '<h2 class="erreur">Vous avez déja une réservation pour cette journée</h2>';
+                 }
             }
             else{
                 echo '<h2 class="erreur">La date fourni n\'est pas celle de demain</h2>';
