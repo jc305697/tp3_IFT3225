@@ -110,14 +110,17 @@ if( $listeTerrainDispo || $liste || $listeReserv || isset($_POST["submitFaitRese
             $dateInput ->setTime(0,0,0,0);
             $dateAujourdhui->setTime(0,0,0,0);
             $diff = date_diff($dateAujourdhui,$dateInput)->format('%R%a');
-            if (strcmp($diff,"+1 days") ==0){
+            if (strcmp($diff,"+1") ==0){
+                 echo '<h2 class="erreur">Premier if</h2>';
                 //https://stackoverflow.com/questions/30243775/get-date-from-input-form-within-php
                 //https://stackoverflow.com/questions/25622370/php-how-to-check-if-a-date-is-today-yesterday-or-tomorrow
                 $queryTest = 'select * from Reservation where prenom='.$prenom.' and nom='.$nom.' and date_reservation='.$_POST["dateReserv"];
                  if (mysqli_num_rows(mysqli_query($connect,$queryTest)) == 0) {
+                     echo '<h2 class="erreur">Deuxième if</h2>';
 
 
                      if (mysqli_query($connect, $query)) {
+                         echo '<h2 class="erreur">Troisième if</h2>';
                          echo '<h2>Réservation faite</h2>';
                      } else {
                          echo 'erreur de query ' . mysqli_error($connect);
