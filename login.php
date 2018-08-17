@@ -110,7 +110,7 @@ if( $listeTerrainDispo || $liste || $listeReserv || isset($_POST["submitFaitRese
             $dateInput ->setTime(0,0,0,0);
             $dateAujourdhui->setTime(0,0,0,0);
             $diff = date_diff($dateAujourdhui,$dateInput)->format('%R%a');
-            if (strcmp($diff,"+1") ==0){
+            if (strcmp($diff,"+1 day") ==0){
                 //https://stackoverflow.com/questions/30243775/get-date-from-input-form-within-php
                 //https://stackoverflow.com/questions/25622370/php-how-to-check-if-a-date-is-today-yesterday-or-tomorrow
                 $queryTest = 'select * from Reservation where prenom='.$prenom.' and nom='.$nom.' and date_reservation='.$_POST["dateReserv"];
