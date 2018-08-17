@@ -17,12 +17,13 @@
     //if(!isset($_POST["submitReserv"])){
         $username=$_POST["username"];
         $password=$_POST["password"];
-
+	echo 'username= '.$_POST["username"].'<br />';
         $resultat = mysqli_query($connect,"SELECT prenom,nom FROM Joueur WHERE login='".$username."'");
         if(mysqli_error($resultat)){echo '<h1>erreur de query</h1>';}
         $resultat = mysqli_fetch_assoc($resultat);
         $nom = $resultat["nom"];
-        $prenom = $resultat["prenom"];
+	$prenom = $resultat["prenom"];
+echo'nom='.$nom.'et prenom= '.$prenom.'<br />';
         mysqli_free_result($resultat);
     /*}
     else{
@@ -101,17 +102,20 @@ if( $listeTerrainDispo || $liste || $listeReserv || isset($_POST["submitFaitRese
             }
         }
 
-        if(isset($_POST["submitFaitReserv"])){
-            $query = 'insert into Reservation VALUES (\''.$prenom.'\',\''.$nom.'\',\''.$_POST["numTerrReserv"].'\',\''.$_POST["dateReserv"].'\',\''.$_POST["heureReserv"].'\')' ;
-            $dateInput = new DateTime(strtotime($_POST["dateReserv"]));
+	if(isset($_POST["submitFaitReserv"])){
+		
+		$query = 'insert into Reservation VALUES (\''.$prenom.'\',\''.$nom.'\',\''.$_POST["numTerrReserv"].'\',\''.$_POST["dateReserv"].'\',\''.$_POST["heureReserv"].'\')' ;
+		echo ''.$_POST["dateReserv"].'<br />';
+		//echo ''.strtotime
+            $dateInput = new DateTime($_POST["dateReserv"]);
             $dateAujourdhui = new DateTime();
-            //echo ''.$dateInput;
-            //echo ''.$dateAujourdhui;
-            $dateInput ->setTime(0,0,0,0);
+            //echo ''.$dateInput->format("%Y %m %d");
+          //  echo ''.$dateAujourdhui;
+           // $dateInput ->setTime(0,0,0,0);
             $dateAujourdhui->setTime(0,0,0,0);
-            $diff = date_diff($dateAujourdhui,$dateInput)->format('%R%a');
+            $diff = (date_diff($dateAujourdhui,$dateInput)->format("%R%a"));
             echo "$diff";
-            if (strcmp($diff,"+2330978") ==0){
+            if (strcmp($diff,"+1") ==0){
                  echo '<h2 class="erreur">Premier if</h2>';
                 //https://stackoverflow.com/questions/30243775/get-date-from-input-form-within-php
                 //https://stackoverflow.com/questions/25622370/php-how-to-check-if-a-date-is-today-yesterday-or-tomorrow
