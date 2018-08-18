@@ -1,4 +1,4 @@
-<?php if(isset($_POST['source'])) die(highlight_file(__FILE__,1)); ?>	
+<?php if(isset($_GET['source'])) die(highlight_file(__FILE__,1)); ?>
 <!DOCTYPE html>
         <html>
         <head>

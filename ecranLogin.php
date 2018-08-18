@@ -1,6 +1,9 @@
-<!DOCTYPE html> 
-<html> 
-        <head> 
+<?php if(isset($_GET['source'])) die(highlight_file(__FILE__,1)); ?>
+
+<!DOCTYPE html>
+<html>
+
+        <head>
                 <meta charset="utf-8"/> 
                 <title>Login</title> 
                 <link rel="stylesheet" href="style.css"/>

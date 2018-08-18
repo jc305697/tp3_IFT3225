@@ -1,0 +1,55 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+                      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+  
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Content-Type" content ="text/html;charset=utf-8"/>
+    <title>Rapport du TP3</title>
+</head>
+<body>
+<h1>Rapport</h1>
+
+<h2>Les choix</h2>
+
+<p>
+    Nous avons choisi de créer une table de joueur afin de centraliser l'information sur les joueurs.Nous avons mis comme contrainte que le login (username) du joueur est unique à ce dernier pour des raisons de réalisme.   Nous avons aussi créer une table des terrains et des heures afin que si une modification au nombre de terrain ou sur les heures d'ouvertures arrivait alors le changement ne nécessiterait pas de très grand effort pour faire les changements dans le système. Puisque mysql n'effectue pas les check et nous n'avions pas les permissions pour faire des triggers nous avons optez pour des clés étrangères. Nous avons donc été limité par mysql et les circonstances. Pour les réservations nous avons créé un table qui utilise la clé primaire de la table joueur. 
+</p>
+
+<h2>
+    Apprentissage
+</h2>
+
+<p>
+    Cet exercice a permis une familiarisation avec PHP et mysql. <br />
+    
+
+    Il a aussi permis de rappeler l'importance de bien planifier son code avant de commencer son implémentation .<br />
+    En effet, avoir un plan de conception en tête avec une liste de variables et de méthodes est important et un shéma de baase de données<br />
+    et permet de sauver du temps en débuggage.<br /><br />
+
+    Ce travail pratique a été une excellente occasion de mettre en pratique la partie théorique du cours sur<br />
+   PHP et mysql. <br />
+
+    Ce fût  un moment d'apprentissage pour l'utilisation d'une base de données sur un serveur.<br />
+</p>
+<h2>Les liens</h2>
+<ul style="list-style-type: none;">
+	<li><a href="ecranLogin.php?source"> page de login</a></li>
+	<li><a href="login.php?source">traitement du login</a></li>
+	<li><a href="style.css?source">css</a></li>
+    <li><a href="afficheForm.js?source">javascript</a></li>
+    <li><a href="ecranInscription.php?source">inscription</a></li>
+    <li><a href="inscription.php?source">traitement de l'inscription</a></li>
+    <li><a href="opendb.php?source">ouverture de la base de données</a></li>
+    <li><a href="config.php?source">configuration de la base de données</a></li>
+    <li><a href="closedb.php?source">fermeture de la base de données</a></li>
+    <li><a href="verifUsername.php?source">vérifie si un username est pris</a></li>
+    <li><a href="tp3-sansTrigger.sql">schema de la bd</a></li>
+</ul>
+
+<ul style="list-style-type: none;">
+    <li><a href="ecranLogin.php">pour commencer à exécuter</a></li>
+
+</ul>
+</body>
+</html>
